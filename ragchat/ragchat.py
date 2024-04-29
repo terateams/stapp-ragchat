@@ -137,8 +137,12 @@ def main():
         page_state.chat_engine.reset()
 
     if uploaded_files:
-        index = configure_index(uploaded_files)
-        page_state.index = index
+        try:
+            index = configure_index(uploaded_files)
+            page_state.index = index
+        except Exception as e:
+            st.warning(f"Error: {e}")
+            st.stop()
 
     if not page_state.index:
         st.warning("Index is not configured, please upload files")

@@ -8,3 +8,5 @@ llama-index-embeddings-azure-openai
 llama-index-llms-azure-openai
 nltk
 pypdf
+docx2txt
+markdown

@@ -43,7 +43,7 @@ Settings.embed_model = embed_model
 @st.cache_resource(ttl="1h", show_spinner=False)
 def configure_index(uploaded_files):
     docs = []
-    ragchat_dir = get_global_datadir(subpath="ragchat_dir")
+    ragchat_dir = tempfile.mkdtemp(prefix="ragchat")
     for file in uploaded_files:
         temp_filepath = os.path.join(ragchat_dir, file.name)
         with open(temp_filepath, "wb") as f:

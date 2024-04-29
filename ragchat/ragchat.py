@@ -43,14 +43,14 @@ Settings.embed_model = embed_model
 @st.cache_resource(ttl="1h", show_spinner=False)
 def configure_index(uploaded_files):
     docs = []
-    ragchat_dir = tempfile.mkdtemp(prefix="ragchat")
+    ragchat_dir = tempfile.TemporaryDirectory()
     for file in uploaded_files:
-        temp_filepath = os.path.join(ragchat_dir, file.name)
+        temp_filepath = os.path.join(ragchat_dir.name, file.name)
         with open(temp_filepath, "wb") as f:
             f.write(file.getvalue())
 
     with st.spinner(text="Loading and indexing, please wait a moment..."):
-        reader = SimpleDirectoryReader(input_dir=ragchat_dir, recursive=True)
+        reader = SimpleDirectoryReader(input_dir=ragchat_dir.name, recursive=True)
         docs = reader.load_data()
         service_context = ServiceContext.from_defaults(llm=llm, embed_model=embed_model)
         index = VectorStoreIndex.from_documents(docs, service_context=service_context)
